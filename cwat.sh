@@ -1,0 +1,1 @@
+python -u /home/ubuntu/workspaces/liangsiyuan/RobustDet/train_adv.py --launcher=slurm --cfg cfgs/MTD_voc.yaml --adv_type cwat --data_use clean --multi_gpu True
