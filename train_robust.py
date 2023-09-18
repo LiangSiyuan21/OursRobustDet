@@ -106,11 +106,11 @@ def train():
         data_loader = data.DataLoader(dataset, args.batch_size // 2,
                                       num_workers=args.num_workers,
                                       shuffle=True, collate_fn=detection_collate,
-                                      pin_memory=True, drop_last=True)
+                                      pin_memory=True, drop_last=True, generator=torch.Generator(device='cuda'))
         data_loader_adv = data.DataLoader(dataset, args.batch_size // 2,
                                           num_workers=args.num_workers,
                                           shuffle=True, collate_fn=detection_collate,
-                                          pin_memory=True, drop_last=True)
+                                          pin_memory=True, drop_last=True, generator=torch.Generator(device='cuda'))
 
     #criterion_mlb = MultiBoxLoss(cfg['num_classes'], 0.5, True, 0, True, 3, 0.5, False, args.cuda)
     criterion_clsw = ClassWiseLoss(cfg['num_classes'], 0.5, True, 0, True, 3, 0.5, False, args.cuda)
@@ -156,6 +156,7 @@ def train():
             with amp.autocast(enabled=args.amp):
                 if args.adc > 0:
                     adv_pred = net.module.disc(torch.cat((images, at_img)))
+                    # adv_pred = net.disc(torch.cat((images, at_img)))
                     out1 = net(torch.cat((images, at_img), dim=0), adv_pred=adv_pred)
                     if args.cfr:
                         recons1 = net.recons
