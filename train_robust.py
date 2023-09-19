@@ -213,10 +213,10 @@ def train():
 
             if inter_iteration != 0 and inter_iteration % 5000 == 0:
                 logger.info(f'Saving state, iter: {inter_iteration}')
-                torch.save(ssd_net.state_dict(), os.path.join(args.save_folder, f'ssd300_{task_name}_{inter_iteration}.pth'))
+                torch.save(ssd_net.state_dict(), os.path.join(args.save_folder, f'ssd300_{task_name}_{inter_iteration}_{args.batch_size}.pth'))
             inter_iteration += 1
 
-    torch.save(ssd_net.state_dict(), os.path.join(args.save_folder, f'ssd300_{task_name}_final_{args.max_iter}.pth'))
+    torch.save(ssd_net.state_dict(), os.path.join(args.save_folder, f'ssd300_{task_name}_final_{args.max_iter}_{args.batch_size}.pth'))
 
 def adjust_learning_rate(optimizer, gamma, step):
     """Sets the learning rate to the initial LR decayed by 10 at every
